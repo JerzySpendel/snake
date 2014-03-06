@@ -1,4 +1,4 @@
-import pygame, sys, random
+import pygame, sys, random, time
 from pygame.locals import *
 PIXEL_SIZE = (15,15)
 PIXELS_IN_WIDTH = 40
@@ -171,16 +171,17 @@ class Snake(pygame.Surface):
 
     def update(self, dt, keys):
         self.dt += dt
-        if keys[K_LEFT]:
+        if keys[K_LEFT] and not self.DIRECTION == "RIGHT":
             self.DIRECTION = "LEFT"
-        elif keys[K_RIGHT]:
+        elif keys[K_RIGHT] and not self.DIRECTION == "LEFT":
             self.DIRECTION = "RIGHT"
-        elif keys[K_DOWN]:
+        elif keys[K_DOWN] and not self.DIRECTION == "UP":
             self.DIRECTION = "DOWN"
-        elif keys[K_UP]:
+        elif keys[K_UP] and not self.DIRECTION == "DOWN":
             self.DIRECTION = "UP"
 
-        if self.dt>200 and not self.over:
+        minus = (len(self.parts) - 1)*10
+        if self.dt>(200-minus) and not self.over:
             print("sekunda")
             self.fill( (0,0,0) )
             self.move()
