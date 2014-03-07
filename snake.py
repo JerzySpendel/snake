@@ -43,6 +43,8 @@ class Background(pygame.Surface):
             self.blit(self.img, (PIXEL_SIZE[0]*(PIXELS_IN_WIDTH-1), PIXEL_SIZE[1]*i))
 
 class Apple(pygame.Surface):
+    '''Controls creation of apples, scoreboard and the snake'''
+    
     def __init__(self, size, snake, board):
         super(Apple, self).__init__(size, SRCALPHA, 32)
         self.snake = snake
@@ -53,6 +55,7 @@ class Apple(pygame.Surface):
         self.apples = []
 
     def update(self):
+        '''Add apple if needed'''
         if len(self.apples) == 0:
             x = range(1, PIXELS_IN_WIDTH-1)
             y = range(1, PIXELS_IN_HEIGHT-1)
@@ -84,6 +87,10 @@ class Apple(pygame.Surface):
 
                     
 class Snake(pygame.Surface):
+    '''All parts are stored in list of tuples like this - (type_of_part, coordinates)
+    for example: ('head', (10,20)) , part can be 'rest' or 'head'
+    parts are stored self.parts
+    '''
     def __init__(self, size):
         super(Snake, self).__init__(size)
         self.dt = 0
@@ -99,12 +106,16 @@ class Snake(pygame.Surface):
         self.over = False
 
     def append_body(self):
+        '''Make the snake longer :) '''
+
         last = self.parts[-1]
         x, y = last[1]
         new = ('rest', (x,y+1))
         self.parts.append(new)
 
     def check_snake(self):
+        '''Maybe it's time to end the game?'''
+
         head = self.parts[0]
         head_like_rest = ('rest', head[1])
         new_parts = [head_like_rest]
@@ -127,6 +138,9 @@ class Snake(pygame.Surface):
 
     def move(self):
         def move_parts(parts, old_head):
+            '''Simple algorithm to move all parts to the place
+            where the next part was previously.'''
+
             new_parts = []
             for i in range(len(parts)):
                 if i == 0:
