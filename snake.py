@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import pygame, sys, random, time
 from pygame.locals import *
 PIXEL_SIZE = (15,15)
